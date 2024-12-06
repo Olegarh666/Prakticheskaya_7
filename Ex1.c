@@ -59,16 +59,22 @@ int main(int argc, char *argv[]) {
                 pause(); // Ожидание сигнала
             }
             exit(0);
-        } else { // Процесс игрока 1
+        } 
+        else { // Процесс игрока 1
             signal(SIGUSR1, handler_result);
-	    signal(SIGUSR2, handler_result);
-	    while(1) {
-		pause();
-		if (waitpid(child_pid, NULL, WNOHANG) > 0) {
-		    break;
-		}
-	    } 
-            printf("GAME END. \n"); 
+            signal(SIGUSR2, handler_result);
+            while(1) {
+                pause(); // Ожидание сигнала от игрока 2
+                if (waitpid(child_pid, NULL, WNOHANG) > 0) {
+                    break; // Если процесс игрока 2 завершился, выходим из цикла
+                }
+            } 
+            printf("Игра %d завершена.\n", game + 1);
+        }
+
+        // Меняем местами игроков
+        player_turn = (player_turn == 1) ? 2 : 1; // Меняем местами
+ 
         }
     }
 
