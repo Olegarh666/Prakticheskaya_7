@@ -55,8 +55,12 @@ int main(int argc, char *argv[]) {
 		msgsnd(msgid, &msg, sizeof(msg.guess), 0);
 		sleep(1);
 	    }
-	    wait(NULL);
-	    printf("GAME END!!! \n");
+	    wait(NULL); // Ожидание завершения процесса игрока 2
+                printf("Игра %d завершена.\n", game + 1);
+
+                // Меняем местами игроков
+                player_turn = (player_turn == 1) ? 2 : 1; // Меняем местами
+                break; // Завершаем текущую игру и начинаем новую
 	}
    }
    msgctl(msgid, IPC_RMID, NULL);
